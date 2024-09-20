@@ -103,6 +103,7 @@ namespace TolstovIgorKt_31_21.Database.Configurations
             builder.ToTable(TableName)
                 .HasMany(p => p.Disciplines)
                 .WithOne()
+                .HasConstraintName("fk_f_disciplines_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Navigation(p => p.Disciplines)
