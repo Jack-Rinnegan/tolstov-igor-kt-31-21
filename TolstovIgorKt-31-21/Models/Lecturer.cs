@@ -11,7 +11,6 @@
         public AcademicDegree AcademicDegree { get; set; }
         public int PositionId { get; set; }
         public Position Position {  get; set; }
-        public List<Disciplin> Disciplines { get; set; } = new List<Disciplin>();
         public int HourlyLoadId { get; set; }
         public HourlyLoad HourlyLoad { get; set; }
         public int DepartmentId { get; set; }

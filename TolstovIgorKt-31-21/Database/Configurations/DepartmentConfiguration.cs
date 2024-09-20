@@ -28,6 +28,8 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasColumnType(ColumnType.String).HasMaxLength(128)
                 .HasComment("Название кафедры");
 
+            builder.ToTable(TableName);
+
         }
     }
 }

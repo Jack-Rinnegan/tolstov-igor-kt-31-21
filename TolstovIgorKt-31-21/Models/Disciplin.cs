@@ -4,5 +4,8 @@
     {
         public int DisciplinId { get; set; }
         public string DisciplinName { get; set; }
+
+        public int LecturerId { get; set; }
+        public Lecturer Lecturer { get; set; }
     }
 }

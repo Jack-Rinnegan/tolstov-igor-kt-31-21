@@ -28,6 +28,25 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasColumnType(ColumnType.String).HasMaxLength(128)
                 .HasComment("Название предмета");
 
+
+            //связь Преподаватели
+            builder.Property(p => p.LecturerId)
+                .HasColumnName("lecturer_id")
+                .HasComment("Идентификатор записи преподавателя");
+
+            builder.ToTable(TableName)
+                .HasOne(p => p.Lecturer)
+                .WithMany()
+                .HasForeignKey(p => p.LecturerId)
+                .HasConstraintName("fk_f_lecturer_id")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.LecturerId, $"idx_{TableName}_fk_f_lecturer_id");
+
+            builder.Navigation(p => p.Lecturer)
+                .AutoInclude();
+
         }
     }
 }

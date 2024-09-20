@@ -26,6 +26,8 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasColumnName("c_academic_degree_name")
                 .HasComment("Наименование ученой степени");
 
+            builder.ToTable(TableName);
+
         }
     }
 }

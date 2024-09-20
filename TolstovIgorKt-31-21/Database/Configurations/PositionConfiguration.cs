@@ -26,6 +26,8 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasColumnName("c_position_name")
                 .HasComment("Наименование должности");
 
+            builder.ToTable(TableName);
+
         }
     }
 }

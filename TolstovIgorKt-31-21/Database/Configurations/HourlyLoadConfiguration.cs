@@ -28,6 +28,8 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasColumnType(ColumnType.Int).HasMaxLength(8)
                 .HasComment("Количество часов");
 
+            builder.ToTable(TableName);
+
         }
     }
 }
