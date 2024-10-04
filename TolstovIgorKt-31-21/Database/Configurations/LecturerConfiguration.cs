@@ -61,25 +61,6 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .AutoInclude();
 
 
-            //связь Загруженность преподавателя
-            builder.Property(p => p.HourlyLoadId)
-                .HasColumnName("hourly_load_id")
-                .HasComment("Идентификатор загруженности преподавателя");
-
-            builder.ToTable(TableName)
-                .HasOne(p => p.HourlyLoad)
-                .WithOne()
-                .HasForeignKey<HourlyLoad>(p => p.HourlyLoadId)
-                .HasConstraintName("fk_f_hourly_load_id")
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.ToTable(TableName)
-                .HasIndex(p => p.HourlyLoadId, $"idx_{TableName}_fk_f_hourly_load_id");
-
-            builder.Navigation(p => p.HourlyLoad)
-                .AutoInclude();
-
-
             //связь Должности
             builder.Property(p => p.PositionId)
                 .HasColumnName("position_id")

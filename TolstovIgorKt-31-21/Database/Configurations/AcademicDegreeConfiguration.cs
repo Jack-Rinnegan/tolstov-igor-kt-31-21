@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TolstovIgorKt_31_21.Database.Helprers;
 using TolstovIgorKt_31_21.Models;
 
 namespace TolstovIgorKt_31_21.Database.Configurations
@@ -24,6 +25,7 @@ namespace TolstovIgorKt_31_21.Database.Configurations
             builder.Property(p => p.AcademicDegreeName)
                 .IsRequired()
                 .HasColumnName("c_academic_degree_name")
+                .HasColumnType(ColumnType.String).HasMaxLength(128)
                 .HasComment("Наименование ученой степени");
 
             builder.ToTable(TableName);

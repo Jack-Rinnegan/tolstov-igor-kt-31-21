@@ -5,7 +5,7 @@ using TolstovIgorKt_31_21.Models;
 
 namespace TolstovIgorKt_31_21.Database.Configurations
 {
-    public class DisciplinConfiguration : IEntityTypeConfiguration<Disciplin>
+    public class DisciplinConfiguration: IEntityTypeConfiguration<Disciplin>
     {
         public const string TableName = "cd_disciplin";
 

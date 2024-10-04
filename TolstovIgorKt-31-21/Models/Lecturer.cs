@@ -11,8 +11,6 @@
         public AcademicDegree AcademicDegree { get; set; }
         public int PositionId { get; set; }
         public Position Position {  get; set; }
-        public int HourlyLoadId { get; set; }
-        public HourlyLoad HourlyLoad { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
 
