@@ -3,6 +3,7 @@ using NLog;
 using NLog.Web;
 using TolstovIgorKt_31_21.Database;
 using static TolstovIgorKt_31_21.ServiceExtensions.ServiceExtensions;
+using TolstovIgorKt_31_21.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseMiddleware<ExceptionHandlerMiddleware>();
 
     app.UseAuthorization();
 
