@@ -55,6 +55,13 @@ namespace TolstovIgorKt_31_21.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
 
+                    b.Property<string>("DepartmentEstablishment")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar")
+                        .HasColumnName("c_department_establishment")
+                        .HasComment("Дата основания кафедры");
+
                     b.Property<string>("DepartmentName")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -108,44 +115,14 @@ namespace TolstovIgorKt_31_21.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HourlyLoadId"));
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("integer")
-                        .HasColumnName("department_id")
-                        .HasComment("Идентификатор записи кафедры");
-
-                    b.Property<int?>("DisciplinId")
-                        .HasColumnType("integer")
-                        .HasColumnName("disciplin_id")
-                        .HasComment("Идентификатор записи дисциплины");
-
                     b.Property<int>("Hours")
                         .HasMaxLength(8)
                         .HasColumnType("int4")
                         .HasColumnName("c_hours")
                         .HasComment("Количество часов");
 
-                    b.Property<int?>("LecturerId")
-                        .HasColumnType("integer")
-                        .HasColumnName("lecturer_id")
-                        .HasComment("Идентификатор записи преподавателя");
-
                     b.HasKey("HourlyLoadId")
                         .HasName("pk_cd_hourly_load_hourly_load_id");
-
-                    b.HasIndex("DepartmentId")
-                        .IsUnique();
-
-                    b.HasIndex("DisciplinId")
-                        .IsUnique();
-
-                    b.HasIndex("LecturerId")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "DepartmentId" }, "idx_cd_hourly_load_fk_f_department_id");
-
-                    b.HasIndex(new[] { "DisciplinId" }, "idx_cd_hourly_load_fk_f_disciplin_id");
-
-                    b.HasIndex(new[] { "LecturerId" }, "idx_cd_hourly_load_fk_f_lecturer_id");
 
                     b.ToTable("cd_hourly_load", (string)null);
                 });
@@ -160,15 +137,15 @@ namespace TolstovIgorKt_31_21.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LecturerId"));
 
-                    b.Property<int>("AcademicDegreeId")
+                    b.Property<int?>("AcademicDegreeId")
                         .HasColumnType("integer")
                         .HasColumnName("academic_degree_id")
                         .HasComment("Идентификатор записи ученой степени");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("integer")
                         .HasColumnName("department_id")
-                        .HasComment("Идентификатор записи кафедры");
+                        .HasComment("Идентификатор записи преподавателя");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -176,6 +153,11 @@ namespace TolstovIgorKt_31_21.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("c_lecturer_firstname")
                         .HasComment("Имя преподавателя");
+
+                    b.Property<int?>("HourlyLoadId")
+                        .HasColumnType("integer")
+                        .HasColumnName("hourly_load_id")
+                        .HasComment("Идентификатор записи нагруженности");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -191,7 +173,7 @@ namespace TolstovIgorKt_31_21.Migrations
                         .HasColumnName("c_lecturer_middlename")
                         .HasComment("Отчество преподавателя");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int?>("PositionId")
                         .HasColumnType("integer")
                         .HasColumnName("position_id")
                         .HasComment("Идентификатор записи должности");
@@ -199,9 +181,14 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.HasKey("LecturerId")
                         .HasName("pk_cd_lecturer_lecturer_id");
 
+                    b.HasIndex("HourlyLoadId")
+                        .IsUnique();
+
                     b.HasIndex(new[] { "AcademicDegreeId" }, "idx_cd_lecturer_fk_f_academic_degree_id");
 
                     b.HasIndex(new[] { "DepartmentId" }, "idx_cd_lecturer_fk_f_department_id");
+
+                    b.HasIndex(new[] { "HourlyLoadId" }, "idx_cd_lecturer_fk_f_hourly_load_id");
 
                     b.HasIndex(new[] { "PositionId" }, "idx_cd_lecturer_fk_f_position_id");
 
@@ -243,59 +230,37 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.Navigation("Lecturer");
                 });
 
-            modelBuilder.Entity("TolstovIgorKt_31_21.Models.HourlyLoad", b =>
-                {
-                    b.HasOne("TolstovIgorKt_31_21.Models.Department", "Department")
-                        .WithOne()
-                        .HasForeignKey("TolstovIgorKt_31_21.Models.HourlyLoad", "DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_f_department_id");
-
-                    b.HasOne("TolstovIgorKt_31_21.Models.Disciplin", "Disciplin")
-                        .WithOne()
-                        .HasForeignKey("TolstovIgorKt_31_21.Models.HourlyLoad", "DisciplinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_f_disciplin_id");
-
-                    b.HasOne("TolstovIgorKt_31_21.Models.Lecturer", "Lecturer")
-                        .WithOne()
-                        .HasForeignKey("TolstovIgorKt_31_21.Models.HourlyLoad", "LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_f_lecturer_id");
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Disciplin");
-
-                    b.Navigation("Lecturer");
-                });
-
             modelBuilder.Entity("TolstovIgorKt_31_21.Models.Lecturer", b =>
                 {
                     b.HasOne("TolstovIgorKt_31_21.Models.AcademicDegree", "AcademicDegree")
                         .WithMany()
                         .HasForeignKey("AcademicDegreeId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_f_academic_degree_id");
 
                     b.HasOne("TolstovIgorKt_31_21.Models.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_f_department_id");
+
+                    b.HasOne("TolstovIgorKt_31_21.Models.HourlyLoad", "HourlyLoad")
+                        .WithOne()
+                        .HasForeignKey("TolstovIgorKt_31_21.Models.Lecturer", "HourlyLoadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("fk_f_hourly_load_id");
 
                     b.HasOne("TolstovIgorKt_31_21.Models.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_f_position_id");
 
                     b.Navigation("AcademicDegree");
 
                     b.Navigation("Department");
+
+                    b.Navigation("HourlyLoad");
 
                     b.Navigation("Position");
                 });

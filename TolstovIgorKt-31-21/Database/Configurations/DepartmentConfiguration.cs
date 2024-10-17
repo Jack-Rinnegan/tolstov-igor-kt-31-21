@@ -28,6 +28,12 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasColumnType(ColumnType.String).HasMaxLength(128)
                 .HasComment("Название кафедры");
 
+            builder.Property(p => p.DepartmentEstablishment)
+                .IsRequired()
+                .HasColumnName("c_department_establishment")
+                .HasColumnType(ColumnType.String).HasMaxLength(128)
+                .HasComment("Дата основания кафедры");
+
             builder.ToTable(TableName);
 
         }

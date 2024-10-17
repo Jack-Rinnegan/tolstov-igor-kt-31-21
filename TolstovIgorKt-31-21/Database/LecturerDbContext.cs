@@ -8,7 +8,7 @@ namespace TolstovIgorKt_31_21.Database
     public class LecturerDbContext : DbContext
     {
         DbSet<Department> Departments { get; set; }
-        DbSet<Lecturer> Lecturers { get; set; }
+        public DbSet<Lecturer> Lecturers { get; set; }
         DbSet<AcademicDegree> AcademicDegrees { get; set; }
         DbSet<Position> Positions { get; set; }
         DbSet<HourlyLoad> HourlyLoads { get; set; }

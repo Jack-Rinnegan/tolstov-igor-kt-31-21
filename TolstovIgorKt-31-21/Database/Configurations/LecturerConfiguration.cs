@@ -42,25 +42,6 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasComment("Отчество преподавателя");
 
 
-            //связь Кафедры
-            builder.Property(p => p.DepartmentId)
-                .HasColumnName("department_id")
-                .HasComment("Идентификатор записи кафедры");
-
-            builder.ToTable(TableName)
-                .HasOne(p => p.Department)
-                .WithMany()
-                .HasForeignKey(p => p.DepartmentId)
-                .HasConstraintName("fk_f_department_id")
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.ToTable(TableName)
-                .HasIndex(p => p.DepartmentId, $"idx_{TableName}_fk_f_department_id");
-
-            builder.Navigation(p => p.Department)
-                .AutoInclude();
-
-
             //связь Должности
             builder.Property(p => p.PositionId)
                 .HasColumnName("position_id")
@@ -77,6 +58,24 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasIndex(p => p.PositionId, $"idx_{TableName}_fk_f_position_id");
 
             builder.Navigation(p => p.Position)
+                .AutoInclude();
+
+             //связь кафедры
+            builder.Property(p => p.DepartmentId)
+                .HasColumnName("department_id")
+                .HasComment("Идентификатор записи преподавателя");
+
+            builder.ToTable(TableName)
+                .HasOne(p => p.Department)
+                .WithMany()
+                .HasForeignKey(p => p.DepartmentId)
+                .HasConstraintName("fk_f_department_id")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.DepartmentId, $"idx_{TableName}_fk_f_department_id");
+
+            builder.Navigation(p => p.Department)
                 .AutoInclude();
 
 
@@ -96,6 +95,25 @@ namespace TolstovIgorKt_31_21.Database.Configurations
                 .HasIndex(p => p.AcademicDegreeId, $"idx_{TableName}_fk_f_academic_degree_id");
 
             builder.Navigation(p => p.AcademicDegree)
+                .AutoInclude();
+
+
+            //связь нагруженность преподавателя
+            builder.Property(p => p.HourlyLoadId)
+                .HasColumnName("hourly_load_id")
+                .HasComment("Идентификатор записи нагруженности");
+
+            builder.ToTable(TableName)
+                .HasOne(p => p.HourlyLoad)
+                .WithOne()
+                .HasForeignKey<Lecturer>(p => p.HourlyLoadId)
+                .HasConstraintName("fk_f_hourly_load_id")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.HourlyLoadId, $"idx_{TableName}_fk_f_hourly_load_id");
+
+            builder.Navigation(p => p.HourlyLoad)
                 .AutoInclude();
         }
     }
