@@ -12,7 +12,7 @@ using TolstovIgorKt_31_21.Database;
 namespace TolstovIgorKt_31_21.Migrations
 {
     [DbContext(typeof(LecturerDbContext))]
-    [Migration("20241017084332_CreateDatabase")]
+    [Migration("20241018151908_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
