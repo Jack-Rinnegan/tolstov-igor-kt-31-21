@@ -12,7 +12,7 @@ namespace TolstovIgorKt_31_21.Database
         DbSet<AcademicDegree> AcademicDegrees { get; set; }
         DbSet<Position> Positions { get; set; }
         DbSet<HourlyLoad> HourlyLoads { get; set; }
-        DbSet<Disciplin> Disciplins { get; set; }
+        DbSet<Discipline> Disciplins { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace TolstovIgorKt_31_21.Database
             modelBuilder.ApplyConfiguration(new AcademicDegreeConfiguration());
             modelBuilder.ApplyConfiguration(new PositionConfiguration());
             modelBuilder.ApplyConfiguration(new HourlyLoadConfiguration());
-            modelBuilder.ApplyConfiguration(new DisciplinConfiguration());
+            modelBuilder.ApplyConfiguration(new DisciplineConfiguration());
         }
 
         public LecturerDbContext(DbContextOptions<LecturerDbContext> options) : base(options)

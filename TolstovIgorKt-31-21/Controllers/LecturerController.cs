@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TolstovIgorKt_31_21.Interfaces.DepartmentInterfaces;
+using TolstovIgorKt_31_21.Interfaces.LecturerInterfaces;
 using TolstovIgorKt_31_21.Models;
 
 namespace TolstovIgorKt_31_21.Controllers
@@ -10,9 +10,9 @@ namespace TolstovIgorKt_31_21.Controllers
     public class LecturerController : Controller
     {
         private readonly ILogger<LecturerController> _logger;
-        private readonly IDepartmentService _lecturerService;
+        private readonly ILecturerService _lecturerService;
 
-        public LecturerController(ILogger<LecturerController> logger, IDepartmentService lecturerService)
+        public LecturerController(ILogger<LecturerController> logger, ILecturerService lecturerService)
         {
             _logger = logger;
             _lecturerService = lecturerService;

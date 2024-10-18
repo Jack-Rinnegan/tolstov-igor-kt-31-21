@@ -39,19 +39,6 @@ namespace TolstovIgorKt_31_21.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "cd_hourly_load",
-                columns: table => new
-                {
-                    hourly_load_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи звгруженности преподавателя")
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    c_hours = table.Column<int>(type: "int4", maxLength: 8, nullable: false, comment: "Количество часов")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cd_hourly_load_hourly_load_id", x => x.hourly_load_id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "cd_position",
                 columns: table => new
                 {
@@ -94,12 +81,6 @@ namespace TolstovIgorKt_31_21.Migrations
                         principalColumn: "department_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_f_hourly_load_id",
-                        column: x => x.hourly_load_id,
-                        principalTable: "cd_hourly_load",
-                        principalColumn: "hourly_load_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "fk_f_position_id",
                         column: x => x.position_id,
                         principalTable: "cd_position",
@@ -108,17 +89,17 @@ namespace TolstovIgorKt_31_21.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "cd_disciplin",
+                name: "cd_discipline",
                 columns: table => new
                 {
-                    disciplin_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи предмета")
+                    discipline_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи предмета")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    c_disciplin_name = table.Column<string>(type: "varchar", maxLength: 128, nullable: false, comment: "Название предмета"),
+                    c_discipline_name = table.Column<string>(type: "varchar", maxLength: 128, nullable: false, comment: "Название предмета"),
                     lecturer_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи преподавателя")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_cd_disciplin_disciplin_id", x => x.disciplin_id);
+                    table.PrimaryKey("pk_cd_discipline_discipline_id", x => x.discipline_id);
                     table.ForeignKey(
                         name: "fk_f_lecturer_id",
                         column: x => x.lecturer_id,
@@ -127,9 +108,27 @@ namespace TolstovIgorKt_31_21.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "cd_hourly_load",
+                columns: table => new
+                {
+                    hourly_load_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи звгруженности преподавателя"),
+                    c_hours = table.Column<int>(type: "int4", maxLength: 8, nullable: false, comment: "Количество часов")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_hourly_load_hourly_load_id", x => x.hourly_load_id);
+                    table.ForeignKey(
+                        name: "fk_f_hourly_load_id",
+                        column: x => x.hourly_load_id,
+                        principalTable: "cd_lecturer",
+                        principalColumn: "lecturer_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "idx_cd_disciplin_fk_f_lecturer_id",
-                table: "cd_disciplin",
+                name: "idx_cd_discipline_fk_f_lecturer_id",
+                table: "cd_discipline",
                 column: "lecturer_id");
 
             migrationBuilder.CreateIndex(
@@ -151,19 +150,16 @@ namespace TolstovIgorKt_31_21.Migrations
                 name: "idx_cd_lecturer_fk_f_position_id",
                 table: "cd_lecturer",
                 column: "position_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_cd_lecturer_hourly_load_id",
-                table: "cd_lecturer",
-                column: "hourly_load_id",
-                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "cd_disciplin");
+                name: "cd_discipline");
+
+            migrationBuilder.DropTable(
+                name: "cd_hourly_load");
 
             migrationBuilder.DropTable(
                 name: "cd_lecturer");
@@ -173,9 +169,6 @@ namespace TolstovIgorKt_31_21.Migrations
 
             migrationBuilder.DropTable(
                 name: "cd_department");
-
-            migrationBuilder.DropTable(
-                name: "cd_hourly_load");
 
             migrationBuilder.DropTable(
                 name: "cd_position");

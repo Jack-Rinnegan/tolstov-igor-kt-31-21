@@ -1,9 +1,9 @@
 ﻿namespace TolstovIgorKt_31_21.Models
 {
-    public class Disciplin
+    public class Discipline
     {
-        public int DisciplinId { get; set; }
-        public string DisciplinName { get; set; }
+        public int DisciplineId { get; set; }
+        public string DisciplineName { get; set; }
 
         public int LecturerId { get; set; }
         public Lecturer Lecturer { get; set; }

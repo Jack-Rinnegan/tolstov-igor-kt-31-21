@@ -15,11 +15,6 @@ namespace TolstovIgorKt_31_21.Interfaces.DepartmentInterfaces
         public Task<Department[]> GetDepartmentByDateOfEstablishmentAsync(DepartmentEstablishmentFilter filter, CancellationToken cancellationToken);
         public Task<Department[]> GetDepartmentByCountOfLecturerAsync(DepartmentLecturerFilter filter, CancellationToken cancellationToken);
 
-
-        public Task<Lecturer[]> GetLecturerAsync(CancellationToken cancellationToken = default);
-        public Task AddLecturerAsync(string firstName, string lastName, string middleName, int departmentId, CancellationToken cancellationToken);
-        public Task UpdateLecturerAsync(int lecturerId, string newLecturerFirstName, string newLecturerLastName, string newLecturerMiddleName, CancellationToken cancellationToken);
-        public Task DeleteLecturerAsync(int lecturerId, CancellationToken cancellationToken);
     }
 
     public class DepartmentService : IDepartmentService
@@ -37,7 +32,7 @@ namespace TolstovIgorKt_31_21.Interfaces.DepartmentInterfaces
         }
         public Task<Department[]> GetDepartmentByDateOfEstablishmentAsync(DepartmentEstablishmentFilter filter, CancellationToken cancellationToken = default)
         {
-            var department = _dbContext.Set<Department>().Where(d => 
+            var department = _dbContext.Set<Department>().Where(d =>
             (d.DepartmentEstablishment == filter.DateOfEstablishment)).ToArrayAsync(cancellationToken);
 
             return department;
@@ -55,59 +50,6 @@ namespace TolstovIgorKt_31_21.Interfaces.DepartmentInterfaces
                 .ToArrayAsync(cancellationToken);
 
             return department;
-        }
-
-
-        //Преподаватели
-        public Task<Lecturer[]> GetLecturerAsync(CancellationToken cancellationToken = default)
-        {
-            var lecturer = _dbContext.Set<Lecturer>().ToArrayAsync(cancellationToken);
-
-            return lecturer;
-        }
-
-        public async Task AddLecturerAsync(string firstName, string lastName, string middleName, int departmentId, CancellationToken cancellationToken = default)
-        {
-            var lecturer = await _dbContext.Set<Lecturer>().FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
-
-            if (lecturer != null)
-            {
-                var newLecturer = new Lecturer
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    MiddleName = middleName,
-                    DepartmentId = departmentId,
-                };
-
-                _dbContext.Lecturers.Add( newLecturer );
-                await _dbContext.SaveChangesAsync();
-            }
-        }
-
-        public async Task UpdateLecturerAsync(int lecturerId, string newLecturerFirstName, string newLecturerLastName, string newLecturerMiddleName, CancellationToken cancellationToken = default)
-        {
-            var lecturer = await _dbContext.Set<Lecturer>().FindAsync(lecturerId);
-
-            if (lecturer != null)
-            {
-               lecturer.FirstName = newLecturerFirstName;
-               lecturer.LastName = newLecturerLastName;
-               lecturer.MiddleName = newLecturerMiddleName;
-               
-               await _dbContext.SaveChangesAsync();
-            }
-        }
-
-        public async Task DeleteLecturerAsync(int lecturerId, CancellationToken cancellationToken = default)
-        {
-            var lecturer = await _dbContext.Set<Lecturer>().FindAsync(lecturerId);
-
-            if (lecturer != null)
-            {
-                _dbContext.Lecturers.Remove(lecturer);
-                await _dbContext.SaveChangesAsync();
-            }
         }
 
     }

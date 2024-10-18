@@ -12,7 +12,7 @@ using TolstovIgorKt_31_21.Database;
 namespace TolstovIgorKt_31_21.Migrations
 {
     [DbContext(typeof(LecturerDbContext))]
-    [Migration("20241018151908_CreateDatabase")]
+    [Migration("20241018174308_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -78,21 +78,21 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.ToTable("cd_department", (string)null);
                 });
 
-            modelBuilder.Entity("TolstovIgorKt_31_21.Models.Disciplin", b =>
+            modelBuilder.Entity("TolstovIgorKt_31_21.Models.Discipline", b =>
                 {
-                    b.Property<int>("DisciplinId")
+                    b.Property<int>("DisciplineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("disciplin_id")
+                        .HasColumnName("discipline_id")
                         .HasComment("Идентификатор записи предмета");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisciplinId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisciplineId"));
 
-                    b.Property<string>("DisciplinName")
+                    b.Property<string>("DisciplineName")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar")
-                        .HasColumnName("c_disciplin_name")
+                        .HasColumnName("c_discipline_name")
                         .HasComment("Название предмета");
 
                     b.Property<int>("LecturerId")
@@ -100,12 +100,12 @@ namespace TolstovIgorKt_31_21.Migrations
                         .HasColumnName("lecturer_id")
                         .HasComment("Идентификатор записи преподавателя");
 
-                    b.HasKey("DisciplinId")
-                        .HasName("pk_cd_disciplin_disciplin_id");
+                    b.HasKey("DisciplineId")
+                        .HasName("pk_cd_discipline_discipline_id");
 
-                    b.HasIndex(new[] { "LecturerId" }, "idx_cd_disciplin_fk_f_lecturer_id");
+                    b.HasIndex(new[] { "LecturerId" }, "idx_cd_discipline_fk_f_lecturer_id");
 
-                    b.ToTable("cd_disciplin", (string)null);
+                    b.ToTable("cd_discipline", (string)null);
                 });
 
             modelBuilder.Entity("TolstovIgorKt_31_21.Models.HourlyLoad", b =>
@@ -115,8 +115,6 @@ namespace TolstovIgorKt_31_21.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("hourly_load_id")
                         .HasComment("Идентификатор записи звгруженности преподавателя");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HourlyLoadId"));
 
                     b.Property<int>("Hours")
                         .HasMaxLength(8)
@@ -184,9 +182,6 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.HasKey("LecturerId")
                         .HasName("pk_cd_lecturer_lecturer_id");
 
-                    b.HasIndex("HourlyLoadId")
-                        .IsUnique();
-
                     b.HasIndex(new[] { "AcademicDegreeId" }, "idx_cd_lecturer_fk_f_academic_degree_id");
 
                     b.HasIndex(new[] { "DepartmentId" }, "idx_cd_lecturer_fk_f_department_id");
@@ -221,7 +216,7 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.ToTable("cd_position", (string)null);
                 });
 
-            modelBuilder.Entity("TolstovIgorKt_31_21.Models.Disciplin", b =>
+            modelBuilder.Entity("TolstovIgorKt_31_21.Models.Discipline", b =>
                 {
                     b.HasOne("TolstovIgorKt_31_21.Models.Lecturer", "Lecturer")
                         .WithMany()
@@ -231,6 +226,16 @@ namespace TolstovIgorKt_31_21.Migrations
                         .HasConstraintName("fk_f_lecturer_id");
 
                     b.Navigation("Lecturer");
+                });
+
+            modelBuilder.Entity("TolstovIgorKt_31_21.Models.HourlyLoad", b =>
+                {
+                    b.HasOne("TolstovIgorKt_31_21.Models.Lecturer", null)
+                        .WithOne("HourlyLoad")
+                        .HasForeignKey("TolstovIgorKt_31_21.Models.HourlyLoad", "HourlyLoadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_f_hourly_load_id");
                 });
 
             modelBuilder.Entity("TolstovIgorKt_31_21.Models.Lecturer", b =>
@@ -247,12 +252,6 @@ namespace TolstovIgorKt_31_21.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_f_department_id");
 
-                    b.HasOne("TolstovIgorKt_31_21.Models.HourlyLoad", "HourlyLoad")
-                        .WithOne()
-                        .HasForeignKey("TolstovIgorKt_31_21.Models.Lecturer", "HourlyLoadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_f_hourly_load_id");
-
                     b.HasOne("TolstovIgorKt_31_21.Models.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
@@ -263,9 +262,13 @@ namespace TolstovIgorKt_31_21.Migrations
 
                     b.Navigation("Department");
 
-                    b.Navigation("HourlyLoad");
-
                     b.Navigation("Position");
+                });
+
+            modelBuilder.Entity("TolstovIgorKt_31_21.Models.Lecturer", b =>
+                {
+                    b.Navigation("HourlyLoad")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

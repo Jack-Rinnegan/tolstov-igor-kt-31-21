@@ -5,26 +5,26 @@ using TolstovIgorKt_31_21.Models;
 
 namespace TolstovIgorKt_31_21.Database.Configurations
 {
-    public class DisciplinConfiguration: IEntityTypeConfiguration<Disciplin>
+    public class DisciplineConfiguration: IEntityTypeConfiguration<Discipline>
     {
-        public const string TableName = "cd_disciplin";
+        public const string TableName = "cd_discipline";
 
-        public void Configure(EntityTypeBuilder<Disciplin> builder)
+        public void Configure(EntityTypeBuilder<Discipline> builder)
         {
             builder
-                .HasKey(p => p.DisciplinId)
-                .HasName($"pk_{TableName}_disciplin_id");
+                .HasKey(p => p.DisciplineId)
+                .HasName($"pk_{TableName}_discipline_id");
 
-            builder.Property(p => p.DisciplinId)
+            builder.Property(p => p.DisciplineId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(p => p.DisciplinId)
-                .HasColumnName("disciplin_id")
+            builder.Property(p => p.DisciplineId)
+                .HasColumnName("discipline_id")
                 .HasComment("Идентификатор записи предмета");
 
-            builder.Property(p => p.DisciplinName)
+            builder.Property(p => p.DisciplineName)
                 .IsRequired()
-                .HasColumnName("c_disciplin_name")
+                .HasColumnName("c_discipline_name")
                 .HasColumnType(ColumnType.String).HasMaxLength(128)
                 .HasComment("Название предмета");
 
