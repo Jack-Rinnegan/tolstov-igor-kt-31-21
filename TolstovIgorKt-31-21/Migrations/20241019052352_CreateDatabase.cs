@@ -39,6 +39,19 @@ namespace TolstovIgorKt_31_21.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "cd_hourly_load",
+                columns: table => new
+                {
+                    hourly_load_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи звгруженности преподавателя")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    c_hours = table.Column<int>(type: "int4", maxLength: 8, nullable: false, comment: "Количество часов")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_hourly_load_hourly_load_id", x => x.hourly_load_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "cd_position",
                 columns: table => new
                 {
@@ -81,6 +94,12 @@ namespace TolstovIgorKt_31_21.Migrations
                         principalColumn: "department_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "fk_f_hourly_load_id",
+                        column: x => x.hourly_load_id,
+                        principalTable: "cd_hourly_load",
+                        principalColumn: "hourly_load_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "fk_f_position_id",
                         column: x => x.position_id,
                         principalTable: "cd_position",
@@ -108,24 +127,6 @@ namespace TolstovIgorKt_31_21.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "cd_hourly_load",
-                columns: table => new
-                {
-                    hourly_load_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи звгруженности преподавателя"),
-                    c_hours = table.Column<int>(type: "int4", maxLength: 8, nullable: false, comment: "Количество часов")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cd_hourly_load_hourly_load_id", x => x.hourly_load_id);
-                    table.ForeignKey(
-                        name: "fk_f_hourly_load_id",
-                        column: x => x.hourly_load_id,
-                        principalTable: "cd_lecturer",
-                        principalColumn: "lecturer_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "idx_cd_discipline_fk_f_lecturer_id",
                 table: "cd_discipline",
@@ -144,12 +145,18 @@ namespace TolstovIgorKt_31_21.Migrations
             migrationBuilder.CreateIndex(
                 name: "idx_cd_lecturer_fk_f_hourly_load_id",
                 table: "cd_lecturer",
-                column: "hourly_load_id");
+                column: "lecturer_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_cd_lecturer_fk_f_position_id",
                 table: "cd_lecturer",
                 column: "position_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_cd_lecturer_hourly_load_id",
+                table: "cd_lecturer",
+                column: "hourly_load_id",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -159,9 +166,6 @@ namespace TolstovIgorKt_31_21.Migrations
                 name: "cd_discipline");
 
             migrationBuilder.DropTable(
-                name: "cd_hourly_load");
-
-            migrationBuilder.DropTable(
                 name: "cd_lecturer");
 
             migrationBuilder.DropTable(
@@ -169,6 +173,9 @@ namespace TolstovIgorKt_31_21.Migrations
 
             migrationBuilder.DropTable(
                 name: "cd_department");
+
+            migrationBuilder.DropTable(
+                name: "cd_hourly_load");
 
             migrationBuilder.DropTable(
                 name: "cd_position");

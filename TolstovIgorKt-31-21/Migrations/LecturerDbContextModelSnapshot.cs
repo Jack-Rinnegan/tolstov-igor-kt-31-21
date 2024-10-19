@@ -113,6 +113,8 @@ namespace TolstovIgorKt_31_21.Migrations
                         .HasColumnName("hourly_load_id")
                         .HasComment("Идентификатор записи звгруженности преподавателя");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HourlyLoadId"));
+
                     b.Property<int>("Hours")
                         .HasMaxLength(8)
                         .HasColumnType("int4")
@@ -179,11 +181,14 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.HasKey("LecturerId")
                         .HasName("pk_cd_lecturer_lecturer_id");
 
+                    b.HasIndex("HourlyLoadId")
+                        .IsUnique();
+
                     b.HasIndex(new[] { "AcademicDegreeId" }, "idx_cd_lecturer_fk_f_academic_degree_id");
 
                     b.HasIndex(new[] { "DepartmentId" }, "idx_cd_lecturer_fk_f_department_id");
 
-                    b.HasIndex(new[] { "HourlyLoadId" }, "idx_cd_lecturer_fk_f_hourly_load_id");
+                    b.HasIndex(new[] { "LecturerId" }, "idx_cd_lecturer_fk_f_hourly_load_id");
 
                     b.HasIndex(new[] { "PositionId" }, "idx_cd_lecturer_fk_f_position_id");
 
@@ -225,16 +230,6 @@ namespace TolstovIgorKt_31_21.Migrations
                     b.Navigation("Lecturer");
                 });
 
-            modelBuilder.Entity("TolstovIgorKt_31_21.Models.HourlyLoad", b =>
-                {
-                    b.HasOne("TolstovIgorKt_31_21.Models.Lecturer", null)
-                        .WithOne("HourlyLoad")
-                        .HasForeignKey("TolstovIgorKt_31_21.Models.HourlyLoad", "HourlyLoadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_f_hourly_load_id");
-                });
-
             modelBuilder.Entity("TolstovIgorKt_31_21.Models.Lecturer", b =>
                 {
                     b.HasOne("TolstovIgorKt_31_21.Models.AcademicDegree", "AcademicDegree")
@@ -249,6 +244,12 @@ namespace TolstovIgorKt_31_21.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_f_department_id");
 
+                    b.HasOne("TolstovIgorKt_31_21.Models.HourlyLoad", "HourlyLoad")
+                        .WithOne()
+                        .HasForeignKey("TolstovIgorKt_31_21.Models.Lecturer", "HourlyLoadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("fk_f_hourly_load_id");
+
                     b.HasOne("TolstovIgorKt_31_21.Models.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
@@ -259,13 +260,9 @@ namespace TolstovIgorKt_31_21.Migrations
 
                     b.Navigation("Department");
 
-                    b.Navigation("Position");
-                });
+                    b.Navigation("HourlyLoad");
 
-            modelBuilder.Entity("TolstovIgorKt_31_21.Models.Lecturer", b =>
-                {
-                    b.Navigation("HourlyLoad")
-                        .IsRequired();
+                    b.Navigation("Position");
                 });
 #pragma warning restore 612, 618
         }

@@ -106,7 +106,7 @@ namespace TolstovIgorKt_31_21.Database.Configurations
             builder.ToTable(TableName)
                 .HasOne(p => p.HourlyLoad)
                 .WithOne()
-                .HasForeignKey<HourlyLoad>(p => p.HourlyLoadId)
+                .HasForeignKey<Lecturer>(p => p.HourlyLoadId)
                 .HasConstraintName("fk_f_hourly_load_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
